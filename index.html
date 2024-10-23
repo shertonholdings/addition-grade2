@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 2 - Addition & Subtraction (Within 100)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #logo img {
+            width: 150px;
+        }
+        #problem {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            font-size: 18px;
+            padding: 5px;
+        }
+        button {
+            font-size: 18px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        #feedback {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        #more-exercises {
+            margin-top: 40px;
+            font-size: 18px;
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        #more-exercises:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Logo at the top -->
+    <div id="logo">
+        <img src="https://i.imgur.com/mwpTHJj.png" alt="Logo">
+    </div>
+
+    <h1>Addition & Subtraction (Within 100)</h1>
+    <div id="problem"></div>
+
+    <input type="text" id="answer" placeholder="Enter your answer here">
+    <button onclick="checkAnswer()">Submit</button>
+
+    <div id="feedback"></div>
+
+    <!-- "More Exercises" button at the bottom -->
+    <a id="more-exercises" href="https://sites.google.com/view/grades-2/home">More Exercises</a>
+
+    <script>
+        let number1, number2, operator, correctAnswer;
+
+        function generateProblem() {
+            number1 = Math.floor(Math.random() * 90) + 10; // Generates a number between 10 and 99
+            number2 = Math.floor(Math.random() * 90) + 10; // Generates a number between 10 and 99
+            operator = Math.random() > 0.5 ? '+' : '-'; // Randomly choose between addition and subtraction
+
+            if (operator === '+') {
+                correctAnswer = number1 + number2;
+            } else {
+                if (number1 < number2) {
+                    [number1, number2] = [number2, number1]; // Ensure number1 is greater than number2 for subtraction
+                }
+                correctAnswer = number1 - number2;
+            }
+
+            document.getElementById('problem').innerText = `Solve: ${number1} ${operator} ${number2} = ?`;
+            document.getElementById('answer').value = ''; // Clear input field
+            document.getElementById('feedback').innerText = ''; // Clear feedback
+        }
+
+        function checkAnswer() {
+            let userAnswer = parseInt(document.getElementById('answer').value);
+            if (userAnswer === correctAnswer) {
+                document.getElementById('feedback').innerText = "Great job! Moving to the next question...";
+                document.getElementById('feedback').style.color = "green";
+                
+                // Wait for 2 seconds before generating a new problem
+                setTimeout(generateProblem, 2000);
+            } else {
+                document.getElementById('feedback').innerText = "Try again! Hint: Use borrowing/carrying.";
+                document.getElementById('feedback').style.color = "red";
+                document.getElementById('answer').value = ''; // Clear input field for retry
+            }
+        }
+
+        // Generate a new problem on page load
+        window.onload = generateProblem;
+    </script>
+
+</body>
+</html>
+
